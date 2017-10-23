@@ -39,17 +39,19 @@ public class ShoppingListServlet extends HttpServlet {
         String username = request.getParameter("username");
         String item = request.getParameter("item");
         String action = request.getParameter("action");
-        //String radio = request.getParameter("radio");
-
+        
         HttpSession session = request.getSession();
+        session.setAttribute("user", username);
         
         ArrayList<String> items = (ArrayList<String>) session.getAttribute("items");
         if (items == null) {
             items = new ArrayList();
         }
+        
         if ("add".equals(action)) {
             items.add(item);
             session.setAttribute("items", items);
+            
             getServletContext().getRequestDispatcher("/WEB-INF/shoppingList.jsp").forward(request, response);
         }
         if ("delete".equals(action)) {
@@ -60,6 +62,6 @@ public class ShoppingListServlet extends HttpServlet {
             }
         }
         getServletContext().getRequestDispatcher("/WEB-INF/shoppingList.jsp").forward(request, response);
-        session.setAttribute("user", username);
+        
     }
 }
